@@ -1,23 +1,13 @@
 package com.journaldev.bootifulmongodb.service;
 
 import com.journaldev.bootifulmongodb.dal.CrawlRequestRepository;
-import com.journaldev.bootifulmongodb.dal.DeepCrawlDetailRepository;
-import com.journaldev.bootifulmongodb.dto.URLDetailDTO;
 import com.journaldev.bootifulmongodb.model.CrawlRequest;
-import com.journaldev.bootifulmongodb.model.DeepCrawlDetail;
 import com.journaldev.bootifulmongodb.util.Enum;
-import com.journaldev.bootifulmongodb.util.ExtractSourcePageData;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @Service
 @EnableAsync
@@ -25,19 +15,20 @@ public class WebCrawlerService {
 
     String base62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    public WebCrawlerService(CrawlRequestRepository crawlRequestRepository) {
-        this.crawlRequestRepository = crawlRequestRepository;
-    }
 
     @Autowired
     private final CrawlRequestRepository crawlRequestRepository;
 
 
+    public WebCrawlerService(CrawlRequestRepository crawlRequestRepository) {
+        this.crawlRequestRepository = crawlRequestRepository;
+    }
+
     @Autowired
     public  AsyncSourcePageData asyncSourcePageData;
 
     public String addCrawlRequest(String URL, int depth) {
-        String token = base62Encode(Long.parseLong(URL));//use counter
+        String token = base62Encode(1234534);//use counter
 
         crawlRequestRepository.save(new CrawlRequest(token, URL, Enum.Status.SUBMITTED.toString()));
         asyncSourcePageData.processPageSource(token,URL, depth);

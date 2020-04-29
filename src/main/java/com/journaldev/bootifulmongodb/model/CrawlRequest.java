@@ -1,6 +1,5 @@
 package com.journaldev.bootifulmongodb.model;
 
-import com.journaldev.bootifulmongodb.util.Enum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,7 +16,8 @@ public class CrawlRequest {
     private String details;
     private String requestURLStatus;
 
-    public CrawlRequest(){}
+    public CrawlRequest(){
+    }
 
     public CrawlRequest(String uniqueId, String requestURL, String requestURLStatus){
         this.uniqueId=uniqueId;

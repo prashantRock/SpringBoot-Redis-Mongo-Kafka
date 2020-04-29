@@ -1,8 +1,7 @@
 package com.journaldev.bootifulmongodb.service;
 
 import com.journaldev.bootifulmongodb.dal.CrawlRequestRepository;
-import com.journaldev.bootifulmongodb.dal.DeepCrawlDetailRepository;
-import com.journaldev.bootifulmongodb.dto.URLDetailDTO;
+import com.journaldev.bootifulmongodb.dto.URLDetail;
 import com.journaldev.bootifulmongodb.model.CrawlRequest;
 import com.journaldev.bootifulmongodb.util.Enum;
 import com.journaldev.bootifulmongodb.util.ExtractSourcePageData;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -26,8 +24,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 public class AsyncSourcePageData  {
 
-    public AsyncSourcePageData(CrawlRequestRepository crawlRequestRepository) {
+
+    @Autowired
+    private final Producer producer;
+
+
+    public AsyncSourcePageData(CrawlRequestRepository crawlRequestRepository, Producer producer) {
         this.crawlRequestRepository = crawlRequestRepository;
+        this.producer = producer;
     }
 
     private final CrawlRequestRepository crawlRequestRepository;
@@ -52,7 +56,7 @@ public class AsyncSourcePageData  {
     public void processPageSource(String token, String url, int depth) {
 
 
-        List<URLDetailDTO> urlDetailDTOList = new ArrayList<>();
+        List<URLDetail> urlDetailDTOList = new ArrayList<>();
         List<String> URLList = new ArrayList<>();
         URLList.add(url);
         int totalImages = 0;
@@ -72,7 +76,8 @@ public class AsyncSourcePageData  {
                     List<String> imageResult = ExtractSourcePageData.extractImageLinks(doc);
                     String title = ExtractSourcePageData.extractTitle(doc);
 //                    totalImages = totalImages + imageResult.size();
-                    urlDetailDTOList.add(new URLDetailDTO(title, URL, imageResult.size()));
+                    this.producer.sendMessage(URL);
+                    urlDetailDTOList.add(new URLDetail(title, URL, imageResult.size()));
                 }
                 URLList = eachPageURLList;
             }

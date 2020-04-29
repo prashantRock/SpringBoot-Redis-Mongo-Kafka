@@ -36,11 +36,4 @@ public class WebCrawlerController {
     }
 
 
-    @RequestMapping(value = "/fetchpage", method = RequestMethod.GET)
-    public String fetchpage() throws Exception {
-
-       return "";
-
-    }
-
 }

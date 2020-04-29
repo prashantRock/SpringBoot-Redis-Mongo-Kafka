@@ -1,14 +1,14 @@
 package com.journaldev.bootifulmongodb.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class DeepCrawlDetail {
 
+    @Id
     String uniqueId;
     String deepCrawlURL;
-    String deepCrawlURLTitle;
-    String imageCount;
 
     public String getUniqueId() {
         return uniqueId;
@@ -26,19 +26,4 @@ public class DeepCrawlDetail {
         this.deepCrawlURL = deepCrawlURL;
     }
 
-    public String getDeepCrawlURLTitle() {
-        return deepCrawlURLTitle;
-    }
-
-    public void setDeepCrawlURLTitle(String deepCrawlURLTitle) {
-        this.deepCrawlURLTitle = deepCrawlURLTitle;
-    }
-
-    public String getImageCount() {
-        return imageCount;
-    }
-
-    public void setImageCount(String imageCount) {
-        this.imageCount = imageCount;
-    }
 }

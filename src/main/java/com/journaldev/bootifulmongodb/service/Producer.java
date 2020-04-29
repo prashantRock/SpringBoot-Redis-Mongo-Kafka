@@ -12,7 +12,7 @@ public class Producer {
 
 
     private static final Logger logger = LoggerFactory.getLogger(Producer.class);
-    private static final String TOPIC = "webCrwalerURL";
+    private static final String TOPIC = "test";
 
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
